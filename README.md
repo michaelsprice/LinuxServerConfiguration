@@ -1,7 +1,7 @@
 # Linux Server Configuration Project 
 The Linux Server Configuration Project will allow you to navigate to a website and then display a list of categories in a database. Clicking on a category will show you a list of items associated to that Category. Clicking on the item will show the item and the description. From there, you can edit or delete the item.
 
-## IP address: http://52.91.30.170 
+## IP address: http://34.207.150.199 
 
 ## SSH Port: 2200 
 
