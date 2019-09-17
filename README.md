@@ -4,6 +4,7 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 ## Configuration Needed 
 - Step 1
 - Step 2
+- Step 3
 
 ## Usage
 - Navigate to _______
