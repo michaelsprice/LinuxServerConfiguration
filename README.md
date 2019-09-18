@@ -12,7 +12,7 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 - Database server: Postgres 
 
 
-*** TODO - Put Image of landing page here ***
+TODO - Put Image of landing page here
 
 ## Configurations Made
 1. Create an Instance with AWS Lightsail
@@ -84,7 +84,6 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 - `sudo nano /etc/apache2/conf-available/wsgi.conf`
 - Add the following line, then save & exit the file: WSGIScriptAlias /test_wsgi /var/www/html/test_wsgi.py 
 
-================================================
 TODO: This is to test it, may need to remove
 - `sudo nano  /var/www/html/test_wsgi.py`
 - Add the following lines then save and exit the file:
@@ -103,16 +102,16 @@ def application(environ,start_response):
     return [html]
 - `sudo a2enconf wsgi`
 - `sudo /etc/init.d/apache2 restart`
-================================================
+end TODO
 
 
 11. Install and configure PostgreSQL:
 - `sudo apt-get install postgresql postgresql-contrib`
-================================================
+
 TODO: Do not allow remote connections
 I know i need to run this, but not sure what to put in that file
 - `sudo nano /etc/postgresql/9.5/main/pg_hba.conf`
-================================================
+end TODO
 - `sudo su - postgres`
 - `psql`
 - `create database catalog;`
@@ -136,11 +135,6 @@ I know i need to run this, but not sure what to put in that file
 - ``
 
 14. Set it up in your server so that it functions correctly when visiting your server’s IP address in a browser. Make sure that your .git directory is not publicly accessible via a browser!
-
-
-Restart apache
-sudo service apache2 restart
-then check the public ip address
 
 
 ## Usage
