@@ -150,8 +150,8 @@ then check the public ip address
 - Click on the item to see the item and the description. From there, you can edit or delete the item (requires you to be logged in via google).
 
 ## Third-party resources
-- https://devops.ionos.com/tutorials/install-and-configure-mod_wsgi-on-ubuntu-1604-1/ (Used to install & configure mod_wsgi)
-- https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps#do-not-allow-remote-connections & https://medium.com/coding-blocks/creating-user-database-and-adding-access-on-postgresql-8bfcd2f4a91e (used to install & configure PostgreSQL)
+- Used [this page] (https://devops.ionos.com/tutorials/install-and-configure-mod_wsgi-on-ubuntu-1604-1/) to help install & configure mod_wsgi
+- Used [this page] (https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps#do-not-allow-remote-connections) & [this page] (https://medium.com/coding-blocks/creating-user-database-and-adding-access-on-postgresql-8bfcd2f4a91e) to help install & configure PostgreSQL
 
 ## Notes:
 - To SSH in after enabling the firewall, cd into Downloads (or wherever the lightsail_key.rsa file is) and then run `ssh -i lightsail_key.rsa ubuntu@34.207.150.199 -p 2200`
