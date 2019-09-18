@@ -112,6 +112,7 @@ end TODO
 TODO: Do not allow remote connections
 I know i need to run this, but not sure what to put in that file
 - `sudo nano /etc/postgresql/9.5/main/pg_hba.conf`
+
 end TODO
 - `sudo su - postgres`
 - `psql`
