@@ -11,13 +11,12 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 - Web Application: My item catalog project (link to repo in GitHub)
 - Database server: Postgres 
 
-## URL: 
 
-*** Put Image of landing page here ***
+*** TODO - Put Image of landing page here ***
 
 ## Configurations Made
 1. Create an Instance with AWS Lightsail
-- Navigate to https://lightsail.aws.amazon.com/ and sign in (or create account.
+- Navigate to https://lightsail.aws.amazon.com/ and sign in (or create account).
 - Create an instance, select Linux/Unix, OS Only, select Ubuntu 16.04 LTS, select a tier (lowest is fine), give it a name, click Create Instance. ** TODO: BREAK THIS LINE UP**
 - Once the instance is running, click on the name.
 
@@ -33,11 +32,11 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 - Type yes if prompted
 
 3. Upgrade & Install packages
-- In terminal, run `sudo apt-get update`
-- Run `sudo apt-get upgrade` 
+- `sudo apt-get update`
+- `sudo apt-get upgrade` 
 
 4. Change the SSH port from 22 to 2200 
-- In terminal, run `sudo nano /etc/ssh/sshd_config`
+- `sudo nano /etc/ssh/sshd_config`
 - Find the line Port 20 and change it to Port 2200
 - Save & Exit the file
 - Restart SSH by running `sudo service ssh restart`
@@ -53,8 +52,8 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 - `sudo ufw enable` (enables UFW)
 - `sudo ufw status` (to check the status, UFW should be active) 
 - Go to the AWS page, networking tab
-- Click Add Another, leave Custom, select UDP as the protocol, 123
-- Custom TCP 2200
+- Click Add Another, leave Custom, select UDP as the protocol, port 123
+- Click Add Another, leave Custom, select TCP as the protocol, port 2200
 
 6. Create a new user account named grader.
 - `sudo adduser grader`
@@ -72,23 +71,69 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 - `sudo nano .ssh/authorized_keys`
 - Paste the contents, save and exit the file.
 - `sudo service ssh restart`
-- Disable root login 
-- `sudo nano /etc/ssh/sshd_config` and find PermitRootLogin and change it to no, save and exit the file.
+- Disable root login by running `sudo nano /etc/ssh/sshd_config` and find PermitRootLogin and change it to no, save and exit the file.
 
 9. Configure the local timezone to UTC.
 - `sudo dpkg-reconfigure tzdata`, select none of the above, UTC
 
 10. Install and configure Apache to serve a Python mod_wsgi application.
+- `sudo apt-get install apache2 apache2-utils libexpat1 ssl-cert python` (installs some prerequisite Apache components in order to work with mod_wsgi)
+- `curl http://localhost` (verifies it's working correctly)
+- `sudo apt-get install libapache2-mod-wsgi` (installs mod_wsgi)
+- `sudo /etc/init.d/apache2 restart` 
+- `sudo nano /etc/apache2/conf-available/wsgi.conf`
+- Add the following line, then save & exit the file: WSGIScriptAlias /test_wsgi /var/www/html/test_wsgi.py 
+
+================================================
+TODO: This is to test it, may need to remove
+- `sudo nano  /var/www/html/test_wsgi.py`
+- Add the following lines then save and exit the file:
+
+def application(environ,start_response):
+    status = '200 OK'
+    html = '<html>\n' \
+           '<body>\n' \
+           '<div style="width: 100%; font-size: 40px; font-weight: bold; text-align: center;">\n' \
+           'mod_wsgi Test Page\n' \
+           '</div>\n' \
+           '</body>\n' \
+           '</html>\n'
+    response_header = [('Content-type','text/html')]
+    start_response(status,response_header)
+    return [html]
+- `sudo a2enconf wsgi`
+- `sudo /etc/init.d/apache2 restart`
+================================================
 
 
 11. Install and configure PostgreSQL:
-
+- `sudo apt-get install postgresql postgresql-contrib`
+================================================
+TODO: Do not allow remote connections
+I know i need to run this, but not sure what to put in that file
+- `sudo nano /etc/postgresql/9.5/main/pg_hba.conf`
+================================================
+- `sudo su - postgres`
+- `psql`
+- `create database catalog;`
+- `create user catalog;`
+- `alter user catalog with password 'catalog';`
+- `grant all privileges on database catalog to catalog;`
+- `\q`
+- `exit`
 
 12. Install git.
-
+- `sudo apt-get install git`
+- `git config --global user.name "Michael Price"`
+- `git config --global user.email mprice0064@gmail.com`
 
 13. Clone and setup your Item Catalog project from the Github repository you created earlier in this Nanodegree program.
-
+- `sudo git clone https://github.com/michaelsprice/catalog_project.git /var/www/catalog`
+- `sudo chown -R grader:grader /var/www/catalog`
+- ``
+- ``
+- ``
+- ``
 
 14. Set it up in your server so that it functions correctly when visiting your server’s IP address in a browser. Make sure that your .git directory is not publicly accessible via a browser!
 
@@ -105,3 +150,8 @@ then check the public ip address
 - Click on the item to see the item and the description. From there, you can edit or delete the item (requires you to be logged in via google).
 
 ## Third-party resources
+- https://devops.ionos.com/tutorials/install-and-configure-mod_wsgi-on-ubuntu-1604-1/ (Used to install & configure mod_wsgi)
+- https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps#do-not-allow-remote-connections & https://medium.com/coding-blocks/creating-user-database-and-adding-access-on-postgresql-8bfcd2f4a91e (used to install & configure PostgreSQL)
+
+## Notes:
+- To SSH in after enabling the firewall, cd into Downloads (or wherever the lightsail_key.rsa file is) and then run `ssh -i lightsail_key.rsa ubuntu@34.207.150.199 -p 2200`
