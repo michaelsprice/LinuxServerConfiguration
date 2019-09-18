@@ -138,6 +138,10 @@ Below is following [this site](https://www.digitalocean.com/community/tutorials/
 - `sudo mv ./catalog_project/ ./FlaskApp`
 - `cd FlaskApp`
 - `sudo mv application.py __init__.py`
+- `sudo nano database_setup.py` and change `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('postgresql://catalog:catalog@localhost/catalog')`
+- `sudo nano populate_database.py` and change `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('postgresql://catalog:catalog@localhost/catalog')`
+- `sudo nano __init__.py` and change `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('postgresql://catalog:catalog@localhost/catalog')`
+- `sudo apt-get -qqy install postgresql python-psycopg2`
 - `sudo apt-get install python-pip`
 - `sudo pip install virtualenv`
 - `sudo virtualenv venv`
@@ -186,7 +190,11 @@ application.secret_key = 'super_secret_key'
 - `sudo service apache2 restart`
 
 14. Set it up in your server so that it functions correctly when visiting your server’s IP address in a browser. Make sure that your .git directory is not publicly accessible via a browser!
-
+- `sudo nano __init__.py` and move the line `app.secret_key = super_secret_key` to be after the line `app = Flask(__name__)` 
+- Change the line `CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']` to `CLIENT_ID = json.loads(open('/var/www/FlaskApp/FlaskApp/client_secret.json', 'r').read())['web']['client_id']`
+- `sudo python database_setup.py`
+- `sudo python database_data.py`
+- `sudo python application.py`
 
 ## Usage
 - Navigate to _______
