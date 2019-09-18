@@ -87,7 +87,8 @@ TODO - Put Image of landing page here
 TODO: This is to test it, may need to remove
 - `sudo nano  /var/www/html/test_wsgi.py`
 - Add the following lines then save and exit the file:
-```def application(environ,start_response):
+```
+def application(environ,start_response):
     status = '200 OK'
     html = '<html>\n' \
            '<body>\n' \
@@ -149,7 +150,8 @@ Below is following [this site](https://www.digitalocean.com/community/tutorials/
 - `deactivate` (to deactivate the environment)
 - `sudo nano /etc/apache2/sites-available/FlaskApp.conf`
 - Add the following, then save & exit the file:
-```<VirtualHost *:80>
+```
+<VirtualHost *:80>
                 ServerName http://34.207.150.199/
                 ServerAdmin mprice0064@gmail.com
                 WSGIScriptAlias / /var/www/FlaskApp/flaskapp.wsgi
@@ -171,7 +173,8 @@ Below is following [this site](https://www.digitalocean.com/community/tutorials/
 - `cd ..`
 - `sudo nano flaskapp.wsgi`
 - Add the following, then save & exit the file:
-```#!/usr/bin/python
+```
+#!/usr/bin/python
 import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
