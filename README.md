@@ -129,12 +129,56 @@ end TODO
 - `git config --global user.email mprice0064@gmail.com`
 
 13. Clone and setup your Item Catalog project from the Github repository you created earlier in this Nanodegree program.
-- `sudo git clone https://github.com/michaelsprice/catalog_project.git /var/www/catalog`
-- `sudo chown -R grader:grader /var/www/catalog`
-- ``
-- ``
-- ``
-- ``
+Below is following [this site](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps)
+- `cd /var/www `
+- `sudo mkdir FlaskApp`
+- `cd FlaskApp`
+- `sudo git clone https://github.com/michaelsprice/catalog_project.git`
+- `sudo mv ./catalog_project/ ./FlaskApp`
+- `cd FlaskApp`
+- `sudo mv application.py __init__.py`
+- `sudo apt-get install python-pip`
+- `sudo pip install virtualenv`
+- `sudo virtualenv venv`
+- `source venv/bin/activate`
+- `sudo pip install Flask`
+- `sudo pip install requests`
+- `sudo pip install httplib2`
+- `sudo pip install oauth2client`
+- `sudo python __init__.py` (this proves the app is running)
+- `deactivate` (to deactivate the environment)
+- `sudo nano /etc/apache2/sites-available/FlaskApp.conf`
+- Add the following, then save & exit the file:
+<VirtualHost *:80>
+                ServerName http://34.207.150.199/
+                ServerAdmin mprice0064@gmail.com
+                WSGIScriptAlias / /var/www/FlaskApp/flaskapp.wsgi
+                <Directory /var/www/FlaskApp/FlaskApp/>
+                        Order allow,deny
+                        Allow from all
+                </Directory>
+                Alias /static /var/www/FlaskApp/FlaskApp/static
+                <Directory /var/www/FlaskApp/FlaskApp/static/>
+                        Order allow,deny
+                        Allow from all
+                </Directory>
+                ErrorLog ${APACHE_LOG_DIR}/error.log
+                LogLevel warn
+                CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+- `sudo a2ensite FlaskAppcd `
+- `cd ..`
+- `sudo nano flaskapp.wsgi`
+- Add the following, then save & exit the file:
+#!/usr/bin/python
+import sys
+import logging
+logging.basicConfig(stream=sys.stderr)
+sys.path.insert(0,"/var/www/FlaskApp/")
+
+from FlaskApp import app as application
+application.secret_key = 'super_secret_key'
+- `sudo service apache2 restart`
 
 14. Set it up in your server so that it functions correctly when visiting your server’s IP address in a browser. Make sure that your .git directory is not publicly accessible via a browser!
 
@@ -148,6 +192,8 @@ end TODO
 ## Third-party resources
 - Used [this page](https://devops.ionos.com/tutorials/install-and-configure-mod_wsgi-on-ubuntu-1604-1/) to help install & configure mod_wsgi
 - Used [this page](https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps#do-not-allow-remote-connections) & [this page](https://medium.com/coding-blocks/creating-user-database-and-adding-access-on-postgresql-8bfcd2f4a91e) to help install & configure PostgreSQL
+Used [this page](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps) to help deploy a flask app to the server
+
 
 ## Notes:
 - To SSH in after enabling the firewall, cd into Downloads (or wherever the lightsail_key.rsa file is) and then run `ssh -i lightsail_key.rsa ubuntu@34.207.150.199 -p 2200`
