@@ -54,14 +54,17 @@ TODO - Put Image of landing page here
 - Go to the AWS page, networking tab
 - Click Add Another, leave Custom, select UDP as the protocol, port 123
 - Click Add Another, leave Custom, select TCP as the protocol, port 2200
+- Remove port 22
 
 6. Create a new user account named grader.
 - `sudo adduser grader`
 
 7. Give grader the permission to sudo.
 - `sudo nano /etc/sudoers.d/grader`
-- Enter the following text: grader ALL=(ALL) ALL
-- Save and exit the file 
+- Enter the following text, then save and exit the file:
+```
+grader ALL=(ALL) ALL
+```
 
 8. Set SSH keys for grader user with ssh-keygen on local machine
 - `ssh-keygen` then enter 'grader', hit enter
@@ -82,7 +85,10 @@ TODO - Put Image of landing page here
 - `sudo apt-get install libapache2-mod-wsgi` (installs mod_wsgi)
 - `sudo /etc/init.d/apache2 restart` 
 - `sudo nano /etc/apache2/conf-available/wsgi.conf`
-- Add the following line, then save & exit the file: WSGIScriptAlias /test_wsgi /var/www/html/test_wsgi.py 
+- Add the following line, then save & exit the file: 
+```
+WSGIScriptAlias /test_wsgi /var/www/html/test_wsgi.py 
+```
 
 TODO: This is to test it, may need to remove
 - `sudo nano  /var/www/html/test_wsgi.py`
@@ -109,18 +115,15 @@ end TODO
 
 11. Install and configure PostgreSQL:
 - `sudo apt-get install postgresql postgresql-contrib`
-
-TODO: Do not allow remote connections
-I know i need to run this, but not sure what to put in that file
-- `sudo nano /etc/postgresql/9.5/main/pg_hba.conf`
-
-end TODO
 - `sudo su - postgres`
 - `psql`
 - `create database catalog;`
 - `create user catalog;`
 - `alter user catalog with password 'catalog';`
 - `grant all privileges on database catalog to catalog;`
+- `alter role catalog createdb;`
+- `\c catalog`
+- `grant all on schema public to catalog;`
 - `\q`
 - `exit`
 
@@ -129,65 +132,27 @@ end TODO
 - `git config --global user.name "Michael Price"`
 - `git config --global user.email mprice0064@gmail.com`
 
+
 13. Clone and setup your Item Catalog project from the Github repository you created earlier in this Nanodegree program.
-Below is following [this site](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps)
-- `cd /var/www `
-- `sudo mkdir FlaskApp`
-- `cd FlaskApp`
-- `sudo git clone https://github.com/michaelsprice/catalog_project.git`
-- `sudo mv ./catalog_project/ ./FlaskApp`
-- `cd FlaskApp`
-- `sudo mv application.py __init__.py`
-- `sudo nano database_setup.py` and change `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('postgresql://catalog:catalog@localhost/catalog')`
-- `sudo nano populate_database.py` and change `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('postgresql://catalog:catalog@localhost/catalog')`
-- `sudo nano __init__.py` and change `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('postgresql://catalog:catalog@localhost/catalog')`
-- `sudo apt-get -qqy install postgresql python-psycopg2`
-- `sudo apt-get install python-pip`
-- `sudo pip install virtualenv`
-- `sudo virtualenv venv`
-- `source venv/bin/activate`
-- `sudo pip install Flask`
-- `sudo pip install requests`
-- `sudo pip install httplib2`
-- `sudo pip install oauth2client`
-- `sudo python __init__.py` (this proves the app is running)
-- `deactivate` (to deactivate the environment)
-- `sudo nano /etc/apache2/sites-available/FlaskApp.conf`
+- `cd /var/www/`
+- `sudo mkdir catalog`
+- `sudo chown -R grader:grader catalog`
+- `cd catalog`
+- `git clone https://github.com/michaelsprice/catalog_project.git`
+- `cd catalog_project`
+- `sudo nano catalog.wsgi`
 - Add the following, then save & exit the file:
 ```
-<VirtualHost *:80>
-                ServerName http://34.207.150.199/
-                ServerAdmin mprice0064@gmail.com
-                WSGIScriptAlias / /var/www/FlaskApp/flaskapp.wsgi
-                <Directory /var/www/FlaskApp/FlaskApp/>
-                        Order allow,deny
-                        Allow from all
-                </Directory>
-                Alias /static /var/www/FlaskApp/FlaskApp/static
-                <Directory /var/www/FlaskApp/FlaskApp/static/>
-                        Order allow,deny
-                        Allow from all
-                </Directory>
-                ErrorLog ${APACHE_LOG_DIR}/error.log
-                LogLevel warn
-                CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>
-```
-- `sudo a2ensite FlaskAppcd `
-- `cd ..`
-- `sudo nano flaskapp.wsgi`
-- Add the following, then save & exit the file:
-```
-#!/usr/bin/python
+import sys import logging
 import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
-sys.path.insert(0,"/var/www/FlaskApp/")
-
-from FlaskApp import app as application
-application.secret_key = 'super_secret_key'
+sys.path.insert(0, "/var/www/catalog/")
+from catalog import app as application
+application.secret_key = 'secret'
 ```
-- `sudo service apache2 restart`
+- `sudo /etc/init.d/apache2 restart`
+
 
 14. Set it up in your server so that it functions correctly when visiting your server’s IP address in a browser. Make sure that your .git directory is not publicly accessible via a browser!
 - `sudo nano __init__.py` and move the line `app.secret_key = super_secret_key` to be after the line `app = Flask(__name__)` 
