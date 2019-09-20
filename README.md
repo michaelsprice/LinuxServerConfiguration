@@ -179,12 +179,21 @@ application.secret_key = 'super_secret_key'
 
 
 
-14. Set it up in your server so that it functions correctly when visiting your server’s IP address in a browser. Make sure that your .git directory is not publicly accessible via a browser!
-- `sudo nano __init__.py` and move the line `app.secret_key = super_secret_key` to be after the line `app = Flask(__name__)` 
-- Change the line `CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']` to `CLIENT_ID = json.loads(open('/var/www/FlaskApp/FlaskApp/client_secret.json', 'r').read())['web']['client_id']`
+14. Set it up in your server so that it functions correctly when visiting your server’s IP address in a browser. 
+- `cd /var/www/catalog/catalog_project/`
+- `sudo mv application.py __init__.py`
+- `sudo nano __init__.py` and do the following:
+-- Move the line `app.secret_key = super_secret_key` to be after the line `app = Flask(__name__)` 
+-- Change the line `CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']` to `CLIENT_ID = json.loads(open('/var/www/catalog/catalog_project/client_secrets.json', 'r').read())['web']['client_id']`
+-- Change the line `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('postgresql://catalog:catalog@localhost/catalog')`
+- `sudo nano database_setup.py` and change the line `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('postgresql://catalog:catalog@localhost/catalog')`
+- `sudo nano populate_database.py` and change the line `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('postgresql://catalog:catalog@localhost/catalog')`
 - `sudo python database_setup.py`
-- `sudo python database_data.py`
-- `sudo python application.py`
+- `sudo python populate_database.py` (TODO: This currently doesn't run)
+- `sudo python __init__.py` (TODO: DON'T THINK I NEED THIS ??)
+- `sudo /etc/init.d/apache2 restart`
+
+
 
 ## Usage
 - Navigate to _______
@@ -192,10 +201,13 @@ application.secret_key = 'super_secret_key'
 - Click on a category to see a list of items associated to that Category. On the category page, there is a link to be able to see the JSON endpoint for that category.
 - Click on the item to see the item and the description. From there, you can edit or delete the item (requires you to be logged in via google).
 
+
+
 ## Third-party resources
 - Used [this page](https://devops.ionos.com/tutorials/install-and-configure-mod_wsgi-on-ubuntu-1604-1/) to help install & configure mod_wsgi
 - Used [this page](https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps#do-not-allow-remote-connections) & [this page](https://medium.com/coding-blocks/creating-user-database-and-adding-access-on-postgresql-8bfcd2f4a91e) to help install & configure PostgreSQL
 Used [this page](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps) to help deploy a flask app to the server
+
 
 
 ## Notes:
