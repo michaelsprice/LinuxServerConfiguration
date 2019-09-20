@@ -125,8 +125,8 @@ grader ALL=(ALL) ALL
 
 12. Install git.
 - `sudo apt-get install git`
-- `git config --global user.name "Michael Price"`
-- `git config --global user.email mprice0064@gmail.com`
+- `git config --global user.name "<Your Name>"`
+- `git config --global user.email <Your Email>`
 
 
 
@@ -153,8 +153,8 @@ application.secret_key = 'super_secret_key'
 - Add the following, then save & exit the file:
 ```
 <VirtualHost *:80>
-                ServerName 34.207.150.199
-                ServerAdmin mprice0064@gmail.com
+                ServerName <Your-Public-IP-Address>
+                ServerAdmin <Your-preferred-email-address>
                 WSGIScriptAlias /catalog.wsgi /var/www/catalog/catalog_project/catalog.wsgi
                 <Directory /var/www/catalog/catalog_project/>
                         Order allow,deny
