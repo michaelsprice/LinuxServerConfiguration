@@ -153,8 +153,8 @@ application.secret_key = 'super_secret_key'
 - Add the following, then save & exit the file:
 ```
 <VirtualHost *:80>
-                ServerName <Your-Public-IP-Address>
-                ServerAdmin <Your-preferred-email-address>
+                ServerName Your-Public-IP-Address
+                ServerAdmin Your-preferred-email-address
                 WSGIScriptAlias /catalog.wsgi /var/www/catalog/catalog_project/catalog.wsgi
                 <Directory /var/www/catalog/catalog_project/>
                         Order allow,deny
