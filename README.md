@@ -15,31 +15,42 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 TODO - Put Image of landing page here
 
 ## Configurations Made
-1. Create an Instance with AWS Lightsail
-- Navigate to https://lightsail.aws.amazon.com/ and sign in (or create account).
-- Create an instance, select Linux/Unix, OS Only, select Ubuntu 16.04 LTS, select a tier (lowest is fine), give it a name, click Create Instance. ** TODO: BREAK THIS LINE UP**
+1. Start a new Ubuntu Linux server instance on Amazon Lightsail.
+- Navigate to [Amazon Lightsail](https://lightsail.aws.amazon.com/) and sign in (or create an account).
+- Click the 'Create instancebutton.
+- Select Linux/Unix, OS Only, select Ubuntu 16.04 LTS.
+- Select an instance plan (free/cheapest is fine).
+- Enter a name and click Create instance.
 - Once the instance is running, click on the name.
 
-2. Connect via SSH
+
+
+2. Connect via SSH.
 - Go to your AWS account page and select the instance.
 - At the bottom, click 'Account Page'.
 - Click Download.
 - Save it as anything, click Save.
 - Open terminal on your local machine, cd into the directory where it's downloaded.
-- run `chmod 600 <nameoffile>` to restrict the file permission to nodoby from any group of outside
-- Change the name to 'lightsail_key.rsa'
-- Run `ssh -i lightsail_key.rsa ubuntu@<publicIP>` 
-- Type yes if prompted
+- run `chmod 600 <nameoffile>` to restrict the file permission to nobody from any group or from the outside world.
+- Change the name of the file to 'lightsail_key.rsa'
+- `ssh -i lightsail_key.rsa ubuntu@<publicIP>` 
+- Type yes if prompted.
 
-3. Upgrade & Install packages
+
+
+3. Update all currently installed packages.
 - `sudo apt-get update`
 - `sudo apt-get upgrade` 
 
-4. Change the SSH port from 22 to 2200 
+
+
+4. Change the SSH port from 22 to 2200.
 - `sudo nano /etc/ssh/sshd_config`
-- Find the line Port 20 and change it to Port 2200
-- Save & Exit the file
+- Find the line Port 20 and change it to Port 2200.
+- Save & Exit the file.
 - Restart SSH by running `sudo service ssh restart`
+
+
 
 5. Configure the Uncomplicated Firewall (UFW) to only allow incoming connections for SSH (port 2200), HTTP (port 80), and NTP (port 123).
 - `sudo ufw status` (to check the status, UFW should be inactive) 
@@ -56,8 +67,12 @@ TODO - Put Image of landing page here
 - Click Add Another, leave Custom, select TCP as the protocol, port 2200
 - Remove port 22
 
+
+
 6. Create a new user account named grader.
 - `sudo adduser grader`
+
+
 
 7. Give grader the permission to sudo.
 - `sudo nano /etc/sudoers.d/grader`
@@ -66,8 +81,10 @@ TODO - Put Image of landing page here
 grader ALL=(ALL) ALL
 ```
 
-8. Set SSH keys for grader user with ssh-keygen on local machine
-- `ssh-keygen` then enter 'grader', hit enter
+
+
+8. Create an SSH key pair for grader using the ssh-keygen tool.
+- On your local machine, `ssh-keygen` then enter 'grader', hit enter
 - `cat grader.pub` then copy the contents
 - `su - grader` 
 - `mkdir .ssh`
@@ -76,44 +93,21 @@ grader ALL=(ALL) ALL
 - `sudo service ssh restart`
 - Disable root login by running `sudo nano /etc/ssh/sshd_config` and find PermitRootLogin and change it to no, save and exit the file.
 
+
+
 9. Configure the local timezone to UTC.
 - `sudo dpkg-reconfigure tzdata`, select none of the above, UTC
 
+
+
 10. Install and configure Apache to serve a Python mod_wsgi application.
 - `sudo apt-get install apache2 apache2-utils libexpat1 ssl-cert python` (installs some prerequisite Apache components in order to work with mod_wsgi)
-- `curl http://localhost` (verifies it's working correctly)
 - `sudo apt-get install libapache2-mod-wsgi` (installs mod_wsgi)
 - `sudo /etc/init.d/apache2 restart` 
-- `sudo nano /etc/apache2/conf-available/wsgi.conf`
-- Add the following line, then save & exit the file: 
-```
-WSGIScriptAlias /test_wsgi /var/www/html/test_wsgi.py 
-```
-
-TODO: This is to test it, may need to remove
-- `sudo nano  /var/www/html/test_wsgi.py`
-- Add the following lines then save and exit the file:
-```
-def application(environ,start_response):
-    status = '200 OK'
-    html = '<html>\n' \
-           '<body>\n' \
-           '<div style="width: 100%; font-size: 40px; font-weight: bold; text-align: center;">\n' \
-           'mod_wsgi Test Page\n' \
-           '</div>\n' \
-           '</body>\n' \
-           '</html>\n'
-    response_header = [('Content-type','text/html')]
-    start_response(status,response_header)
-    return [html]
-```
-- `sudo a2enconf wsgi`
-- `sudo /etc/init.d/apache2 restart`
-
-end TODO
 
 
-11. Install and configure PostgreSQL:
+
+11. Install and configure PostgreSQL.
 - `sudo apt-get install postgresql postgresql-contrib`
 - `sudo su - postgres`
 - `psql`
@@ -127,10 +121,13 @@ end TODO
 - `\q`
 - `exit`
 
+
+
 12. Install git.
 - `sudo apt-get install git`
 - `git config --global user.name "Michael Price"`
 - `git config --global user.email mprice0064@gmail.com`
+
 
 
 13. Clone and setup your Item Catalog project from the Github repository you created earlier in this Nanodegree program.
@@ -143,15 +140,43 @@ end TODO
 - `sudo nano catalog.wsgi`
 - Add the following, then save & exit the file:
 ```
-import sys import logging
 import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
-sys.path.insert(0, "/var/www/catalog/")
+sys.path.insert(0,"/var/www/catalog/catalog_project/")
+
 from catalog import app as application
-application.secret_key = 'secret'
+application.secret_key = 'super_secret_key'
 ```
 - `sudo /etc/init.d/apache2 restart`
+- `sudo nano /etc/apache2/sites-available/catalog.conf`
+- Add the following, then save & exit the file:
+```
+<VirtualHost *:80>
+                ServerName 34.207.150.199
+                ServerAdmin mprice0064@gmail.com
+                WSGIScriptAlias /catalog.wsgi /var/www/catalog/catalog_project/catalog.wsgi
+                <Directory /var/www/catalog/catalog_project/>
+                        Order allow,deny
+                        Allow from all
+                </Directory>
+                Alias /static /var/www/catalog/catalog_project/static
+                <Directory /var/www/catalog/catalog_project/static/>
+                        Order allow,deny
+                        Allow from all
+                </Directory>
+                ErrorLog ${APACHE_LOG_DIR}/error.log
+                LogLevel warn
+                CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+```
+- `sudo /etc/init.d/apache2 restart`
+- `sudo a2dissite 000-default.conf`
+- `sudo /etc/init.d/apache2 restart` 
+- `sudo ls /etc/apache2/sites-enabled` I saw FlaskApp.conf was still enabled
+- `sudo a2dissite FlaskApp.conf`
+- `sudo /etc/init.d/apache2 restart`
+
 
 
 14. Set it up in your server so that it functions correctly when visiting your server’s IP address in a browser. Make sure that your .git directory is not publicly accessible via a browser!
