@@ -183,8 +183,11 @@ application.secret_key = 'super_secret_key'
 - `cd /var/www/catalog/catalog_project/`
 - `sudo mv application.py __init__.py`
 - `sudo nano __init__.py` and do the following:
+
 -- Move the line `app.secret_key = super_secret_key` to be after the line `app = Flask(__name__)` 
+
 -- Change the line `CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']` to `CLIENT_ID = json.loads(open('/var/www/catalog/catalog_project/client_secrets.json', 'r').read())['web']['client_id']`
+
 -- Change the line `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('postgresql://catalog:catalog@localhost/catalog')`
 - `sudo nano database_setup.py` and change the line `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('postgresql://catalog:catalog@localhost/catalog')`
 - `sudo nano populate_database.py` and change the line `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('postgresql://catalog:catalog@localhost/catalog')`
