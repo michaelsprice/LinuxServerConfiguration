@@ -17,7 +17,7 @@ TODO - Put Image of landing page here
 ## Configurations Made
 1. Start a new Ubuntu Linux server instance on Amazon Lightsail.
 - Navigate to [Amazon Lightsail](https://lightsail.aws.amazon.com/) and sign in (or create an account).
-- Click the 'Create instancebutton.
+- Click the 'Create instance button.
 - Select Linux/Unix, OS Only, select Ubuntu 16.04 LTS.
 - Select an instance plan (free/cheapest is fine).
 - Enter a name and click Create instance.
@@ -29,7 +29,7 @@ TODO - Put Image of landing page here
 - Go to your AWS account page and select the instance.
 - At the bottom, click 'Account Page'.
 - Click Download.
-- Save it as anything, click Save.
+- Click Save.
 - Open terminal on your local machine, cd into the directory where it's downloaded.
 - run `chmod 600 <nameoffile>` to restrict the file permission to nobody from any group or from the outside world.
 - Change the name of the file to 'lightsail_key.rsa'
@@ -47,6 +47,7 @@ TODO - Put Image of landing page here
 4. Change the SSH port from 22 to 2200.
 - `sudo nano /etc/ssh/sshd_config`
 - Find the line Port 20 and change it to Port 2200.
+- Find PermitRootLogin and change it to no, save and exit the file. (Disables root login by running)
 - Save & Exit the file.
 - Restart SSH by running `sudo service ssh restart`
 
@@ -61,6 +62,7 @@ TODO - Put Image of landing page here
 - `sudo ufw allow 123/udp` 
 - `sudo ufw deny 22` (denies port 22 requests)
 - `sudo ufw enable` (enables UFW)
+- NOTE: If it kicks you out of SSH, cd into Downloads (or wherever the lightsail_key.rsa file is) and then run `ssh -i lightsail_key.rsa ubuntu@34.207.150.199 -p 2200`
 - `sudo ufw status` (to check the status, UFW should be active) 
 - Go to the AWS page, networking tab
 - Click Add Another, leave Custom, select UDP as the protocol, port 123
@@ -71,6 +73,7 @@ TODO - Put Image of landing page here
 
 6. Create a new user account named grader.
 - `sudo adduser grader`
+- Enter a password and additional information.
 
 
 
@@ -84,14 +87,13 @@ grader ALL=(ALL) ALL
 
 
 8. Create an SSH key pair for grader using the ssh-keygen tool.
-- On your local machine, `ssh-keygen` then enter 'grader', hit enter
+- On your local machine, open a new terminal window, `ssh-keygen` then enter 'grader', hit enter
 - `cat grader.pub` then copy the contents
-- `su - grader` 
+- Back on the ssh terminal, `su - grader` 
 - `mkdir .ssh`
 - `sudo nano .ssh/authorized_keys`
 - Paste the contents, save and exit the file.
 - `sudo service ssh restart`
-- Disable root login by running `sudo nano /etc/ssh/sshd_config` and find PermitRootLogin and change it to no, save and exit the file.
 
 
 
