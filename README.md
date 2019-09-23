@@ -20,7 +20,7 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 ## Configurations Made
 1. Start a new Ubuntu Linux server instance on Amazon Lightsail.
 - Navigate to [Amazon Lightsail](https://lightsail.aws.amazon.com/) and sign in (or create an account).
-- Click the 'Create instance button.
+- Click the 'Create instance' button.
 - Select Linux/Unix, OS Only, select Ubuntu 16.04 LTS.
 - Select an instance plan (free/cheapest is fine).
 - Enter a name and click Create instance.
@@ -34,7 +34,7 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 - Click Download.
 - Click Save.
 - Open terminal on your local machine, cd into the directory where it's downloaded.
-- run `chmod 600 <nameoffile>` to restrict the file permission to nobody from any group or from the outside world.
+- run `chmod 600 <nameoffile>` to restrict the file permission to nobody from any group and from the outside world.
 - Change the name of the file to 'lightsail_key.rsa'
 - `ssh -i lightsail_key.rsa ubuntu@<publicIP>` 
 - Type yes if prompted.
@@ -50,9 +50,9 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 4. Change the SSH port from 22 to 2200.
 - `sudo nano /etc/ssh/sshd_config`
 - Find the line Port 20 and change it to Port 2200.
-- Find PermitRootLogin and change it to no, save and exit the file. (Disables root login by running)
+- Find PermitRootLogin and change it to no, save and exit the file. (Disables root login)
 - Save & Exit the file.
-- Restart SSH by running `sudo service ssh restart`
+- Restart SSH by running `sudo service ssh restart`.
 
 
 
@@ -65,7 +65,7 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 - `sudo ufw allow 123/udp` 
 - `sudo ufw deny 22` (denies port 22 requests)
 - `sudo ufw enable` (enables UFW)
-- NOTE: If it kicks you out of SSH, cd into Downloads (or wherever the lightsail_key.rsa file is) and then run `ssh -i lightsail_key.rsa ubuntu@34.207.150.199 -p 2200`
+- *NOTE:* If it kicks you out of SSH, cd into Downloads (or wherever the lightsail_key.rsa file is) and then run `ssh -i lightsail_key.rsa ubuntu@34.207.150.199 -p 2200`
 - `sudo ufw status` (to check the status, UFW should be active) 
 - Go to the AWS page, networking tab
 - Click Add Another, leave Custom, select UDP as the protocol, port 123
