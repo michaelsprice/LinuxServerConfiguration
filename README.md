@@ -65,7 +65,7 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 - `sudo ufw allow 123/udp` 
 - `sudo ufw deny 22` (denies port 22 requests)
 - `sudo ufw enable` (enables UFW)
-- *NOTE:* If it kicks you out of SSH, cd into Downloads (or wherever the lightsail_key.rsa file is) and then run `ssh -i lightsail_key.rsa ubuntu@34.207.150.199 -p 2200`
+- **NOTE:** If it kicks you out of SSH, cd into Downloads (or wherever the lightsail_key.rsa file is) and then run `ssh -i lightsail_key.rsa ubuntu@34.207.150.199 -p 2200`
 - `sudo ufw status` (to check the status, UFW should be active) 
 - Go to the AWS page, networking tab
 - Click Add Another, leave Custom, select UDP as the protocol, port 123
