@@ -12,8 +12,9 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 - Database server: Postgres 
 
 
-
+Then landing page looks like this:
 ![Landing Page](https://github.com/michaelsprice/LinuxServerConfiguration/blob/master/LandingPage.png)
+
 
 
 ## Configurations Made
