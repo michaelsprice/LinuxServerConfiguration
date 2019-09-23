@@ -199,7 +199,7 @@ application.secret_key = 'super_secret_key'
 
 
 ## Usage
-- Navigate to _______
+- Navigate to http://34.207.150.199 
 - You are presented with the categories in the database. From here, you can login (with a google account) in order to add, edit or delete category items.
 - Click on a category to see a list of items associated to that Category. On the category page, there is a link to be able to see the JSON endpoint for that category.
 - Click on the item to see the item and the description. From there, you can edit or delete the item (requires you to be logged in via google).
@@ -207,9 +207,9 @@ application.secret_key = 'super_secret_key'
 
 
 ## Third-party resources
-- Used [this page](https://devops.ionos.com/tutorials/install-and-configure-mod_wsgi-on-ubuntu-1604-1/) to help install & configure mod_wsgi
-- Used [this page](https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps#do-not-allow-remote-connections) & [this page](https://medium.com/coding-blocks/creating-user-database-and-adding-access-on-postgresql-8bfcd2f4a91e) to help install & configure PostgreSQL
-Used [this page](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps) to help deploy a flask app to the server
+- Used [this page](https://devops.ionos.com/tutorials/install-and-configure-mod_wsgi-on-ubuntu-1604-1/) to help install & configure mod_wsgi.
+- Used [this page](https://www.digitalocean.com/community/tutorials/how-to-secure-postgresql-on-an-ubuntu-vps#do-not-allow-remote-connections) & [this page](https://medium.com/coding-blocks/creating-user-database-and-adding-access-on-postgresql-8bfcd2f4a91e) to help install & configure PostgreSQL.
+- Used [this page](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps) to help deploy a flask app to the server.
 
 
 
