@@ -12,7 +12,9 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 - Database server: Postgres 
 
 
-TODO - Put Image of landing page here
+
+![Landing Page](https://github.com/michaelsprice/LinuxServerConfiguration/blob/master/LandingPage.png)
+
 
 ## Configurations Made
 1. Start a new Ubuntu Linux server instance on Amazon Lightsail.
@@ -134,20 +136,19 @@ grader ALL=(ALL) ALL
 
 13. Clone and setup your Item Catalog project from the Github repository you created earlier in this Nanodegree program.
 - `cd /var/www/`
-- `sudo mkdir catalog`
+- `git clone https://github.com/michaelsprice/catalog_project.git`
+- `mv catalog_project catalog`
 - `sudo chown -R grader:grader catalog`
 - `cd catalog`
-- `git clone https://github.com/michaelsprice/catalog_project.git`
-- `cd catalog_project`
 - `sudo nano catalog.wsgi`
 - Add the following, then save & exit the file:
 ```
 import sys
 import logging
 logging.basicConfig(stream=sys.stderr)
-sys.path.insert(0,"/var/www/catalog/catalog_project/")
+sys.path.insert(0,"/var/www/catalog/")
 
-from catalog import app as application
+from application import app as application
 application.secret_key = 'super_secret_key'
 ```
 - `sudo /etc/init.d/apache2 restart`
@@ -157,13 +158,13 @@ application.secret_key = 'super_secret_key'
 <VirtualHost *:80>
                 ServerName Your-Public-IP-Address
                 ServerAdmin Your-Preferred-Email-Address
-                WSGIScriptAlias / /var/www/catalog/catalog_project/catalog.wsgi
-                <Directory /var/www/catalog/catalog_project/>
+                WSGIScriptAlias / /var/www/catalog/catalog.wsgi
+                <Directory /var/www/catalog/>
                         Order allow,deny
                         Allow from all
                 </Directory>
-                Alias /static /var/www/catalog/catalog_project/static
-                <Directory /var/www/catalog/catalog_project/static/>
+                Alias /static /var/www/catalog/static
+                <Directory /var/www/catalog/static/>
                         Order allow,deny
                         Allow from all
                 </Directory>
@@ -182,20 +183,16 @@ application.secret_key = 'super_secret_key'
 
 
 14. Set it up in your server so that it functions correctly when visiting your server’s IP address in a browser. 
-- `cd /var/www/catalog/catalog_project/`
-- `sudo mv application.py __init__.py`
-- `sudo nano __init__.py` and do the following:
+- `cd /var/www/catalog/`
+- `sudo nano application.py` and do the following:
 
--- Move the line `app.secret_key = super_secret_key` to be after the line `app = Flask(__name__)` 
+-- Change the line `CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']` to `CLIENT_ID = json.loads(open('/var/www/catalog/client_secrets.json', 'r').read())['web']['client_id']`
 
--- Change the line `CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']` to `CLIENT_ID = json.loads(open('/var/www/catalog/catalog_project/client_secrets.json', 'r').read())['web']['client_id']`
-
--- Change the line `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('postgresql://catalog:catalog@localhost/catalog')`
-- `sudo nano database_setup.py` and change the line `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('postgresql://catalog:catalog@localhost/catalog')`
-- `sudo nano populate_database.py` and change the line `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('postgresql://catalog:catalog@localhost/catalog')`
+-- Change the line `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('sqlite:///var/www/catalog/catalog.db')`
+- `sudo nano database_setup.py` and change the line `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('sqlite:///var/www/catalog/catalog.db')`
+- `sudo nano populate_database.py` and change the line `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('sqlite:///var/www/catalog/catalog.db')`
 - `sudo python database_setup.py`
-- `sudo python populate_database.py` (TODO: This currently doesn't run)
-- `sudo python __init__.py` (TODO: DON'T THINK I NEED THIS ??)
+- `sudo python populate_database.py`
 - `sudo /etc/init.d/apache2 restart`
 
 
