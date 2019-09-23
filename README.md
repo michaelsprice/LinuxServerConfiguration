@@ -214,5 +214,5 @@ application.secret_key = 'super_secret_key'
 
 
 ## Notes:
-- To SSH in after enabling the firewall, cd into Downloads (or wherever the lightsail_key.rsa file is) and then run `ssh -i lightsail_key.rsa ubuntu@34.207.150.199 -p 2200`
+- To SSH in after enabling the firewall, cd into Downloads (or wherever the lightsail_key.rsa file is) and then run `ssh -i lightsail_key.rsa ubuntu@34.207.150.199 -p 2200`.
 - To connect as the `grader` user, `su - grader` and use the password `grader`.
