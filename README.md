@@ -8,7 +8,7 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 ## Software installed:
 - Linux Distribution: Ubunto 16.04 LTS
 - Virtual Private Server: Amazon Lightsail
-- Web Application: My item catalog project (link to repo in GitHub)
+- Web Application: [My item catalog project](https://github.com/michaelsprice/catalog_project)
 - Database server: Postgres 
 
 
