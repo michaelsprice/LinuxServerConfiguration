@@ -12,7 +12,7 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 - Database server: Postgres 
 
 
-Then landing page looks like this:
+## The landing page looks like this:
 ![Landing Page](https://github.com/michaelsprice/LinuxServerConfiguration/blob/master/LandingPage.png)
 
 
@@ -187,9 +187,9 @@ application.secret_key = 'super_secret_key'
 - `cd /var/www/catalog/`
 - `sudo nano application.py` and do the following:
 
--- Change the line `CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']` to `CLIENT_ID = json.loads(open('/var/www/catalog/client_secrets.json', 'r').read())['web']['client_id']`
+1. Change the line `CLIENT_ID = json.loads(open('client_secrets.json', 'r').read())['web']['client_id']` to `CLIENT_ID = json.loads(open('/var/www/catalog/client_secrets.json', 'r').read())['web']['client_id']`
 
--- Change the line `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('sqlite:///var/www/catalog/catalog.db')`
+2. Change the line `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('sqlite:///var/www/catalog/catalog.db')`
 - `sudo nano database_setup.py` and change the line `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('sqlite:///var/www/catalog/catalog.db')`
 - `sudo nano populate_database.py` and change the line `engine = create_engine('sqlite:///catalog.db')` to `engine = create_engine('sqlite:///var/www/catalog/catalog.db')`
 - `sudo python database_setup.py`
