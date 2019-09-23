@@ -67,10 +67,10 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 - `sudo ufw enable` (enables UFW)
 - **NOTE:** If it kicks you out of SSH, cd into Downloads (or wherever the lightsail_key.rsa file is) and then run `ssh -i lightsail_key.rsa ubuntu@34.207.150.199 -p 2200`
 - `sudo ufw status` (to check the status, UFW should be active) 
-- Go to the AWS page, networking tab
-- Click Add Another, leave Custom, select UDP as the protocol, port 123
-- Click Add Another, leave Custom, select TCP as the protocol, port 2200
-- Remove port 22
+- Go to the AWS page, networking tab.
+- Click Add Another, leave Custom, select UDP as the protocol, port 123.
+- Click Add Another, leave Custom, select TCP as the protocol, port 2200.
+- Remove port 22.
 
 
 
@@ -90,9 +90,9 @@ grader ALL=(ALL) ALL
 
 
 8. Create an SSH key pair for grader using the ssh-keygen tool.
-- On your local machine, open a new terminal window, `ssh-keygen` then enter 'grader', hit enter
-- `cat grader.pub` then copy the contents
-- Back on the ssh terminal, `su - grader` 
+- On your local machine, open a new terminal window, `ssh-keygen` then enter 'grader', hit enter.
+- `cat grader.pub` then copy the contents.
+- Back on the ssh terminal, `su - grader`.
 - `mkdir .ssh`
 - `sudo nano .ssh/authorized_keys`
 - Paste the contents, save and exit the file.
@@ -101,7 +101,7 @@ grader ALL=(ALL) ALL
 
 
 9. Configure the local timezone to UTC.
-- `sudo dpkg-reconfigure tzdata`, select none of the above, UTC
+- `sudo dpkg-reconfigure tzdata`, select none of the above, UTC.
 
 
 
@@ -215,3 +215,4 @@ application.secret_key = 'super_secret_key'
 
 ## Notes:
 - To SSH in after enabling the firewall, cd into Downloads (or wherever the lightsail_key.rsa file is) and then run `ssh -i lightsail_key.rsa ubuntu@34.207.150.199 -p 2200`
+- To connect as the `grader` user, `su - grader` and use the password `grader`.
