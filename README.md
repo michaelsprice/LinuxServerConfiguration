@@ -29,7 +29,7 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 - Installed git.
 - Cloned and setup my Item Catalog project from the Github repository created earlier in this Nanodegree program.
 - Created a catalog.wsgi & catalog.conf file.
-- Enabled FlaskApp as the default site
+- Enabled FlaskApp as the default site.
 - Changed the application.py file to point to the fully qualified client_secret.json file as well as set the create_engine to the fully qualified db file.
 - Changed the database_setup.py & populate_database.py files to point to the fully qualified db file.
 
