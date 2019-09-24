@@ -84,7 +84,7 @@ The Linux Server Configuration Project will allow you to navigate to a website a
 - `sudo nano /etc/sudoers.d/grader`
 - Enter the following text, then save and exit the file:
 ```
-grader ALL=(ALL) ALL
+grader ALL=(ALL) NOPASSWD:ALL
 ```
 
 
@@ -215,4 +215,4 @@ application.secret_key = 'super_secret_key'
 
 ## Notes:
 - To SSH in after enabling the firewall, cd into Downloads (or wherever the lightsail_key.rsa file is) and then run `ssh -i lightsail_key.rsa ubuntu@34.207.150.199 -p 2200`.
-- To connect as the `grader` user, `su - grader` and use the password `grader`.
+- To connect as the `grader` user from your local machine, download the 'grader2' file, then open terminal on your local machine and run `ssh -i grader2 grader@34.207.150.199 -p 2200` and use the password `grader`. 
